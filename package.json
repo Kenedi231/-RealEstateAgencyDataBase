@@ -2,9 +2,9 @@
   "name": "propertyBD",
   "version": "1.0.0",
   "description": "RESTful API with Node.js, Express, and PostgreSQL",
-  "main": "index.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon backend/server.js --watch backend"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "moment": "^2.24.0",
     "pg": "^7.14.0"
   }
 }
