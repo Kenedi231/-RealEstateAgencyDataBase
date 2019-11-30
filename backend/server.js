@@ -6,6 +6,10 @@ const config = require('../config');
 
 const databaseRouter = require('./routes/databaseRoutes');
 const ratesRouter = require('./routes/rateRoutes');
+const photoRouter = require('./routes/photoRoutes');
+const photoCatalogRouter = require('./routes/photoCatalogRoutes');
+const userDataRouter = require('./routes/userDataRoutes');
+const ownerEmployerRouter = require('./routes/ownerEmployerRoutes');
 
 const errorHandler = require('./middlewares/errorHandler');
 
@@ -22,6 +26,11 @@ app.get('/', (req, res) => {
 
 app.use('/', databaseRouter);
 app.use('/rates', ratesRouter);
+app.use('/photos', photoRouter);
+app.use('/photo-catalog', photoCatalogRouter);
+app.use('/user-data', userDataRouter);
+app.use('/owner', ownerEmployerRouter);
+app.use('/employer', ownerEmployerRouter);
 
 app.listen(config.port, () => {
     console.log(`App started on https://localhost:${config.port}/`)
