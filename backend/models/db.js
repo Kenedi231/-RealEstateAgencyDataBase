@@ -2,7 +2,7 @@ const Pool = require('pg').Pool;
 const databaseName = require('../constants/databaseName');
 const config = require('../../config');
 
-const {agent, data} = databaseName;
+const {agent, data, userData} = databaseName;
 
 // SELECT * FROM users ORDER BY id ASC
 // SELECT * FROM users WHERE id = $1
@@ -86,9 +86,42 @@ const getAgents = () => {
     })
 };
 
+const getUsers = () => {
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT 
+            ${userData}.id, ${userData}.username, ${userData}.access, ${agent}.reward, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
+            FROM ${userData}, ${agent}, ${data} 
+            WHERE ${userData}.agentid = ${agent}.id AND ${agent}.dataid = ${data}.id`,
+        (err, results) => {
+            if (err) return reject(err);
+
+            resolve(results.rows);
+        });
+    })
+};
+
+
+const getUsersById = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT 
+            ${userData}.id, ${userData}.username, ${userData}.access, ${agent}.reward, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
+            FROM ${userData}, ${agent}, ${data} 
+            WHERE ${userData}.agentid = ${agent}.id AND ${agent}.dataid = ${data}.id AND ${userData}.id = ${id}`,
+        (err, results) => {
+            if (err) return reject(err);
+
+            resolve(results.rows);
+        });
+    })
+};
+
 const getOwnerEmployerById = (dbName, id) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT ${dbName}.id, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone FROM ${dbName}, ${data} WHERE ${dbName}.dataid = ${data}.id AND ${dbName}.id = ${id}`, (err, results) => {
+        pool.query(`SELECT 
+            ${dbName}.id, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
+            FROM ${dbName}, ${data} 
+            WHERE ${dbName}.dataid = ${data}.id AND ${dbName}.id = ${id}`,
+        (err, results) => {
             if (err) return reject(err);
 
             resolve(results.rows);
@@ -98,7 +131,11 @@ const getOwnerEmployerById = (dbName, id) => {
 
 const getAgentById = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT ${agent}.id, ${agent}.reward, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone FROM ${agent}, ${data} WHERE ${agent}.dataid = ${data}.id AND ${agent}.id = ${id}`, (err, results) => {
+        pool.query(`SELECT 
+            ${agent}.id, ${agent}.reward, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
+            FROM ${agent}, ${data} 
+            WHERE ${agent}.dataid = ${data}.id AND ${agent}.id = ${id}`,
+        (err, results) => {
             if (err) return reject(err);
 
             resolve(results.rows);
@@ -116,6 +153,8 @@ const databaseModel = {
     getOwnerEmployerById,
     getAgents,
     getAgentById,
+    getUsers,
+    getUsersById,
 };
 
 module.exports = databaseModel;
