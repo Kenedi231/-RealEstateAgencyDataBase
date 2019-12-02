@@ -2,14 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import configureStore from "./store";
+import {browserHistory} from 'react-router';
+import {syncHistoryWithStore} from 'react-router-redux'
 
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import Main from "./core/containers/Main";
+
+const store = configureStore();
+
+const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
-    <Provider store={configureStore()}>
-        <App />
+    <Provider store={store}>
+        <Main history={history} />
     </Provider>,
     document.getElementById('root')
 );

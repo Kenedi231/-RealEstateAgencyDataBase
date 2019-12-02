@@ -1,0 +1,16 @@
+.formStyle {
+    margin-top: 12%;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.containerStyle {
+    width: 300px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

@@ -14,8 +14,16 @@ const userRouter = require('./routes/userRoutes');
 const apartmentRouter = require('./routes/apartmentRoutes');
 const contractWithAgencyRouter = require('./routes/contractWithAgencyRoutes');
 const contractRouter = require('./routes/contractRoutes');
+const authRouter = require('./routes/authRoutes');
 
 const errorHandler = require('./middlewares/errorHandler');
+
+const allowCrossDomain = (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', "http://localhost:3001");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+};
 
 app.use(bodyParser.json());
 app.use(
@@ -23,6 +31,7 @@ app.use(
         extended: true,
     })
 );
+app.use(allowCrossDomain);
 
 app.get('/', (req, res) => {
     res.json({info: 'Node.js, Express and Postgres API'})
@@ -39,6 +48,7 @@ app.use('/users', userRouter);
 app.use('/apartments', apartmentRouter);
 app.use('/contract-with-agency', contractWithAgencyRouter);
 app.use('/contract', contractRouter);
+app.use('/auth', authRouter);
 
 app.listen(config.port, () => {
     console.log(`App started on https://localhost:${config.port}/`)
