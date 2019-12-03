@@ -10,6 +10,7 @@ const databaseName = {
     photoCatalog: 'photo_catalog',
     rate: 'rate',
     userData: 'userdata',
+    session: 'session',
 };
 
 module.exports = databaseName;

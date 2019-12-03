@@ -4,10 +4,6 @@ const config = require('../../config');
 
 const {agent, data, userData} = databaseName;
 
-// SELECT * FROM users ORDER BY id ASC
-// SELECT * FROM users WHERE id = $1
-// INSERT INTO users (name, email) VALUES ($1, $2)
-// 'UPDATE users SET name = $1, email = $2 WHERE id = $3',
 const pool = new Pool({
     user: config.userDatabase,
     host: config.hostDatabase,
@@ -59,6 +55,16 @@ const updateDataInTable = (dbName, values, data, id) => {
 const deleteDataFromTableById = (dbName, id) => {
     return new Promise((resolve, reject) => {
         pool.query(`DELETE FROM ${dbName} WHERE id = $1`, [id], (err, results) => {
+            if (err) return reject(err);
+
+            resolve({status: 'OK'});
+        });
+    })
+};
+
+const deleteDataFromTableByData = (dbName, field, data) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`DELETE FROM ${dbName} WHERE ${field} = $1`, [data], (err, results) => {
             if (err) return reject(err);
 
             resolve({status: 'OK'});
@@ -143,6 +149,17 @@ const getAgentById = (id) => {
     })
 };
 
+const getUserByData = (username, password) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT * FROM ${userData} WHERE ${userData}.username = '${username}' AND ${userData}.password = '${password}'`,
+            (err, results) => {
+                if (err) return reject(err);
+
+                resolve(results.rows);
+            });
+    })
+};
+
 const databaseModel = {
     getTableByName,
     getDataFromTableById,
@@ -155,6 +172,8 @@ const databaseModel = {
     getAgentById,
     getUsers,
     getUsersById,
+    getUserByData,
+    deleteDataFromTableByData,
 };
 
 module.exports = databaseModel;

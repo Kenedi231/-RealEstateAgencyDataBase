@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 
 const config = require('../config');
@@ -15,15 +16,21 @@ const apartmentRouter = require('./routes/apartmentRoutes');
 const contractWithAgencyRouter = require('./routes/contractWithAgencyRoutes');
 const contractRouter = require('./routes/contractRoutes');
 const authRouter = require('./routes/authRoutes');
+const logoutRouter = require('./routes/logoutRoutes');
 
 const errorHandler = require('./middlewares/errorHandler');
+const authenticationHandler = require('./middlewares/authenticationHandler');
 
 const allowCrossDomain = (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', "http://localhost:3001");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', '*');
     next();
 };
+
+app.use(cors());
+app.use(allowCrossDomain);
+
 
 app.use(bodyParser.json());
 app.use(
@@ -31,12 +38,15 @@ app.use(
         extended: true,
     })
 );
-app.use(allowCrossDomain);
 
 app.get('/', (req, res) => {
     res.json({info: 'Node.js, Express and Postgres API'})
 });
 
+
+app.use('/auth', authRouter);
+app.use(authenticationHandler);
+app.use('/logout', logoutRouter);
 app.use('/rates', ratesRouter);
 app.use('/photos', photoRouter);
 app.use('/photo-catalog', photoCatalogRouter);
@@ -48,7 +58,6 @@ app.use('/users', userRouter);
 app.use('/apartments', apartmentRouter);
 app.use('/contract-with-agency', contractWithAgencyRouter);
 app.use('/contract', contractRouter);
-app.use('/auth', authRouter);
 
 app.listen(config.port, () => {
     console.log(`App started on https://localhost:${config.port}/`)

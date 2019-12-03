@@ -5,6 +5,7 @@ const config = {
     passwordDatabase: '123321',
     databaseName: 'rea',
     hostDatabase: 'localhost',
+    secret: 'mysecretkey',
 };
 
 module.exports = config;

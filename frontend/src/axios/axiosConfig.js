@@ -1,15 +1,16 @@
 import axios from 'axios';
 import qs from 'qs';
 
-const baseUrl = 'http://localhost:3000/';
+const baseUrl = 'http://localhost:3000';
 
-const axiosAction = ({url, method, data = null}) => {
+const axiosAction = ({url, method, data = {}}) => {
+    const token = localStorage.getItem('token');
     return new Promise((resolve, reject) => {
         axios.request({
             method,
             headers: {
-                'content-type': 'application/x-www-form-urlencoded',
-                'Access-Control-Allow-Origin': '*',
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             data: qs.stringify(data),
             url: `${baseUrl}${url}`,

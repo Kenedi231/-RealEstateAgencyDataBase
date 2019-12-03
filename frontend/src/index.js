@@ -11,11 +11,11 @@ import Main from "./core/containers/Main";
 
 const store = configureStore();
 
-const history = syncHistoryWithStore(browserHistory, store);
+export const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Main history={history} />
+        <Main />
     </Provider>,
     document.getElementById('root')
 );
