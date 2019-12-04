@@ -1,0 +1,9 @@
+.links {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.links a {
+    padding: 5px;
+}

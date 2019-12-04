@@ -4,13 +4,13 @@ const getUpdateStrings = require('../../utils/getUpdateStrings');
 
 
 const updateAgent = async (req, res, next) => {
-    const {fullName, address, passport, phone, reward} = req.body;
+    const {fullname, address, passport, phone, reward} = req.body;
     const id = parseInt(req.params.id);
     const dataName = 'fullname, address, passport, phone';
     const currentAgent = await databaseModel.getDataFromTableById(databaseName.agent, id);
     const values = getUpdateStrings(dataName);
     const dataId = currentAgent[0].dataid;
-    const newUserData = await databaseModel.updateDataInTable(databaseName.data, values,[fullName, address, passport, phone], dataId);
+    const newUserData = await databaseModel.updateDataInTable(databaseName.data, values,[fullname, address, passport, phone], dataId);
     if (!newUserData) return next();
     const newAgentData = 'reward';
     const valuesAgent = getUpdateStrings(newAgentData);

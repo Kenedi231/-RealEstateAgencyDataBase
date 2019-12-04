@@ -3,10 +3,10 @@ import {Router, Route} from 'react-router';
 import RootScreen from "./RootScreen/RootScreen";
 import ApartmentPage from "./Apartments/ApartmentPage";
 import AgentPage from "./Agent/AgentPage";
-import Contract from "./Contract/Contract"
+import ContractPage from "./Contract/ContractPage"
 import ContractWithAgencyPage from "./ContractWithAgency/ContractWithAgencyPage";
 import DataPage from "./Data/DataPage";
-import EmployerPage from "./EmployerPage/EmployerPage";
+import EmployerPage from "./Employer/EmployerPage";
 import OwnerPage from "./Owner/OwnerPage";
 import PhotoPage from "./Photo/PhotoPage";
 import PhotoCatalogPage from "./PhotoCatalog/PhotoCatalogPage";
@@ -28,7 +28,7 @@ export default class Main extends React.Component {
                 <Route path='/' component={RootScreen} />
                 <Route path='/apartments' component={ApartmentPage} />
                 <Route path='/agents' component={AgentPage} />
-                <Route path='/contracts' component={Contract} />
+                <Route path='/contracts' component={ContractPage} />
                 <Route path='/data' component={DataPage} />
                 <Route path='/employers' component={EmployerPage} />
                 <Route path='/owners' component={OwnerPage} />

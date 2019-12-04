@@ -1,5 +1,5 @@
-import {AUTHORIZATION_TYPE} from "../constants/authorizationType";
-import axiosAction from "../axios/axiosConfig";
+import {AUTHORIZATION_TYPE} from "../../constants/authorizationType";
+import axiosAction from "../../axios/axiosConfig";
 
 const logoutAuthAction = () => dispatch => {
     dispatch({

@@ -7,11 +7,11 @@ const createPhotoCatalog = async (req, res, next) => {
         photos,
         schema,
         number,
-        yearOfConstruction,
+        year_of_construction,
         furniture,
         appliances,
-        addInfo,
-        yearOverhaul,
+        add_info,
+        year_overhaul,
     } = req.body;
     const dataName = '(photos, schema, number, year_of_construction, furniture, appliances, add_info, year_overhaul)';
     const values = getStringValues(dataName);
@@ -19,11 +19,11 @@ const createPhotoCatalog = async (req, res, next) => {
         photos,
         schema,
         number,
-        yearOfConstruction,
+        year_of_construction,
         furniture,
         appliances,
-        addInfo,
-        yearOverhaul,
+        add_info,
+        year_overhaul,
     ]);
 
     res.status(200).json(newPhotoCatalog.rows[0]);

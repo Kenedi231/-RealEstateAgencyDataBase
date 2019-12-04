@@ -1,6 +1,5 @@
-const GET_USER_LIST_REQUEST = 'GET_USER_LIST_REQUEST';
-const GET_USER_LIST_RECEIVED = 'GET_USER_LIST_RECEIVED';
-const GET_USER_LIST_FAILED = 'GET_USER_LIST_FAILED';
+import {USERS_TYPE} from "../constants/userType";
+
 
 const initialState = {
     users: [],
@@ -9,17 +8,22 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case GET_USER_LIST_REQUEST:
+        case USERS_TYPE.GET_USERS_REQUEST:
+        case USERS_TYPE.CREATE_USER_REQUEST:
+        case USERS_TYPE.DELETE_USER_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
-        case GET_USER_LIST_RECEIVED:
+        case USERS_TYPE.GET_USERS_RECEIVED:
             return {
-                users: action.payload.users,
+                users: action.payload,
                 loading: false,
             };
-        case GET_USER_LIST_FAILED:
+        case USERS_TYPE.GET_USERS_FAILED:
+        case USERS_TYPE.CREATE_USER_FAILED:
+        case USERS_TYPE.CREATE_USER_RECEIVED:
+        case USERS_TYPE.DELETE_USER_RECEIVED:
             return {
                 ...state,
                 loading: false,

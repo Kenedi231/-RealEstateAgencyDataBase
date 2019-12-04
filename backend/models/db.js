@@ -95,7 +95,7 @@ const getAgents = () => {
 const getUsers = () => {
     return new Promise((resolve, reject) => {
         pool.query(`SELECT 
-            ${userData}.id, ${userData}.username, ${userData}.access, ${agent}.reward, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
+            ${userData}.id, ${userData}.username, ${userData}.password, ${userData}.access, ${agent}.reward, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
             FROM ${userData}, ${agent}, ${data} 
             WHERE ${userData}.agentid = ${agent}.id AND ${agent}.dataid = ${data}.id`,
         (err, results) => {

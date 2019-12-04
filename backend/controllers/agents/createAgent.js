@@ -3,10 +3,10 @@ const databaseName = require('../../constants/databaseName');
 const getStringValues = require('../../utils/getStringValues');
 
 const createAgent = async (req, res, next) => {
-    const {fullName, address, passport, phone, reward} = req.body;
+    const {fullname, address, passport, phone, reward} = req.body;
     const dataNameUserData = '(fullname, address, passport, phone)';
     const valuesUserData = getStringValues(dataNameUserData);
-    const newUserData = await databaseModel.createNewDataInTable(databaseName.data, dataNameUserData, valuesUserData, [fullName, address, passport, phone]);
+    const newUserData = await databaseModel.createNewDataInTable(databaseName.data, dataNameUserData, valuesUserData, [fullname, address, passport, phone]);
     if (!newUserData) { return next(); }
 
     const dataNameActiveUser = '(dataid, reward)';

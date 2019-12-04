@@ -4,10 +4,10 @@ const getStringValues = require('../../utils/getStringValues');
 
 const createOwnerEmployer = async (req, res, next) => {
     const tableName = req.baseUrl === '/owner' ? databaseName.owner : databaseName.employer;
-    const {fullName, address, passport, phone} = req.body;
+    const {fullname, address, passport, phone} = req.body;
     const dataNameUserData = '(fullname, address, passport, phone)';
     const valuesUserData = getStringValues(dataNameUserData);
-    const newUserData = await databaseModel.createNewDataInTable(databaseName.data, dataNameUserData, valuesUserData, [fullName, address, passport, phone]);
+    const newUserData = await databaseModel.createNewDataInTable(databaseName.data, dataNameUserData, valuesUserData, [fullname, address, passport, phone]);
     if (!newUserData) { return next(); }
 
     const dataNameActiveUser = '(dataid)';

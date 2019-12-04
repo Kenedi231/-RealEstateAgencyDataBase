@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import sendAuthDataAction from "../../../actions/sendAuthDataAction";
+import sendAuthDataAction from "../../../actions/auth/sendAuthDataAction";
 
 import './Login.css';
 import LoginForm from "./LoginForm";

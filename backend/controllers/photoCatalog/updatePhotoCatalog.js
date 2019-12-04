@@ -4,15 +4,16 @@ const getUpdateStrings = require('../../utils/getUpdateStrings');
 
 
 const updatePhotoCatalog = async (req, res, next) => {
+    console.log(req.body);
     const {
         photos,
         schema,
         number,
-        yearOfConstruction,
+        year_of_construction,
         furniture,
         appliances,
-        addInfo,
-        yearOverhaul,
+        add_info,
+        year_overhaul,
     } = req.body;
     const id = parseInt(req.params.id);
     const dataName = 'photos, schema, number, year_of_construction, furniture, appliances, add_info, year_overhaul';
@@ -21,11 +22,11 @@ const updatePhotoCatalog = async (req, res, next) => {
         photos,
         schema,
         number,
-        yearOfConstruction,
+        year_of_construction,
         furniture,
         appliances,
-        addInfo,
-        yearOverhaul,
+        add_info,
+        year_overhaul,
     ], id);
 
     res.status(200).json({status: 'OK'});
