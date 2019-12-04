@@ -12,6 +12,7 @@ import PhotoPage from "./Photo/PhotoPage";
 import PhotoCatalogPage from "./PhotoCatalog/PhotoCatalogPage";
 import RatePage from "./Rate/RatePage";
 import UserPage from "./User/UserPage";
+import {SnackbarProvider} from 'notistack';
 
 import {history} from '../../index';
 
@@ -24,20 +25,22 @@ export default class Main extends React.Component {
         }
 
         return (
-            <Router history={history}>
-                <Route path='/' component={RootScreen} />
-                <Route path='/apartments' component={ApartmentPage} />
-                <Route path='/agents' component={AgentPage} />
-                <Route path='/contracts' component={ContractPage} />
-                <Route path='/data' component={DataPage} />
-                <Route path='/employers' component={EmployerPage} />
-                <Route path='/owners' component={OwnerPage} />
-                <Route path='/photos' component={PhotoPage} />
-                <Route path='/photo-catalogs' component={PhotoCatalogPage} />
-                <Route path='/rates' component={RatePage} />
-                <Route path='/users' component={UserPage} />
-                <Route path='/contracts-with-agency' component={ContractWithAgencyPage} />
-            </Router>
+            <SnackbarProvider maxSnack={3}>
+                <Router history={history}>
+                    <Route path='/' component={RootScreen} />
+                    <Route path='/apartments' component={ApartmentPage} />
+                    <Route path='/agents' component={AgentPage} />
+                    <Route path='/contracts' component={ContractPage} />
+                    <Route path='/data' component={DataPage} />
+                    <Route path='/employers' component={EmployerPage} />
+                    <Route path='/owners' component={OwnerPage} />
+                    <Route path='/photos' component={PhotoPage} />
+                    <Route path='/photo-catalogs' component={PhotoCatalogPage} />
+                    <Route path='/rates' component={RatePage} />
+                    <Route path='/users' component={UserPage} />
+                    <Route path='/contracts-with-agency' component={ContractWithAgencyPage} />
+                </Router>
+            </SnackbarProvider>
         )
     }
 }

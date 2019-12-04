@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import {Link} from "react-router";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import {withSnackbar} from 'notistack';
 import TableComponent from "../../components/Table/TableComponent";
 import getColumns from "../../utils/Converter/getColumns";
 import COLUMN_TYPE from "../../../constants/columnType";
@@ -43,19 +44,25 @@ class UserPage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
     createRow = (data) => {
         this.loadingOn();
-        this.props.createUserAction(data).then(this.getData).catch(this.loadingOff);
+        this.props.createUserAction(data).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateRow = (data) => {
         this.loadingOn();
-        this.props.updateUserAction(data, data.id).then(this.getData).catch(this.loadingOff);
+        this.props.updateUserAction(data, data.id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteRow = (id) => {
         this.loadingOn();
-        this.props.deleteUserAction(id).then(this.getData).catch(this.loadingOff);
+        this.props.deleteUserAction(id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +104,4 @@ class UserPage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (UserPage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (UserPage));

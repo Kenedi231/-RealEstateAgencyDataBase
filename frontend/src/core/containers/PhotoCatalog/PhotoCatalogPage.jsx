@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {Link} from "react-router";
+import {withSnackbar} from 'notistack';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import TableComponent from "../../components/Table/TableComponent";
 import getColumns from "../../utils/Converter/getColumns";
@@ -43,19 +44,25 @@ class PhotoCatalogPage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
     createRow = (data) => {
         this.loadingOn();
-        this.props.createPhotoCatalogAction(data).then(this.getData).catch(this.loadingOff);
+        this.props.createPhotoCatalogAction(data).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateRow = (data) => {
         this.loadingOn();
-        this.props.updatePhotoCatalogAction(data, data.id).then(this.getData).catch(this.loadingOff);
+        this.props.updatePhotoCatalogAction(data, data.id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteRow = (id) => {
         this.loadingOn();
-        this.props.deletePhotoCatalogAction(id).then(this.getData).catch(this.loadingOff);
+        this.props.deletePhotoCatalogAction(id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +104,4 @@ class PhotoCatalogPage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (PhotoCatalogPage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (PhotoCatalogPage));
