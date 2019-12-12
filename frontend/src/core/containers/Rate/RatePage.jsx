@@ -9,6 +9,7 @@ import getRatesAction from "../../../actions/rate/getRatesAction";
 import createRateAction from "../../../actions/rate/createRateAction";
 import updateRateAction from "../../../actions/rate/updateRateAction";
 import deleteRateAction from "../../../actions/rate/deleteRateAction";
+import {withSnackbar} from "notistack";
 
 const mapStateToProps = state => ({
     rates: state.rate.rates,
@@ -43,19 +44,25 @@ class RatePage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
     createRow = (data) => {
         this.loadingOn();
-        this.props.createRateAction(data).then(this.getData).catch(this.loadingOff);
+        this.props.createRateAction(data).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateRow = (data) => {
         this.loadingOn();
-        this.props.updateRateAction(data, data.id).then(this.getData).catch(this.loadingOff);
+        this.props.updateRateAction(data, data.id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteRow = (id) => {
         this.loadingOn();
-        this.props.deleteRateAction(id).then(this.getData).catch(this.loadingOff);
+        this.props.deleteRateAction(id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +104,4 @@ class RatePage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (RatePage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (RatePage));

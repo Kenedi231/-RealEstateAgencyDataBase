@@ -9,6 +9,7 @@ import getDataAction from "../../../actions/data/getDataAction";
 import createDataAction from "../../../actions/data/createDataAction";
 import deleteDataAction from "../../../actions/data/deleteDataAction";
 import updateDataAction from "../../../actions/data/updateDataAction";
+import {withSnackbar} from "notistack";
 
 const mapStateToProps = state => ({
     data: state.data.data,
@@ -43,19 +44,26 @@ class DataPage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
+
     createRow = (data) => {
         this.loadingOn();
-        this.props.createDataAction(data).then(this.getData).catch(this.loadingOff);
+        this.props.createDataAction(data).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateRow = (data) => {
         this.loadingOn();
-        this.props.updateDataAction(data, data.id).then(this.getData).catch(this.loadingOff);
+        this.props.updateDataAction(data, data.id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteRow = (id) => {
         this.loadingOn();
-        this.props.deleteDataAction(id).then(this.getData).catch(this.loadingOff);
+        this.props.deleteDataAction(id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +105,4 @@ class DataPage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (DataPage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (DataPage));

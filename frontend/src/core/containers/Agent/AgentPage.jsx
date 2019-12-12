@@ -9,6 +9,7 @@ import getAgentsAction from "../../../actions/agent/getAgentsAction";
 import deleteAgentAction from "../../../actions/agent/deleteAgentAction";
 import createAgentAction from "../../../actions/agent/createAgentAction";
 import updateAgentAction from "../../../actions/agent/updateAgentAction";
+import {withSnackbar} from "notistack";
 
 const mapStateToProps = state => ({
     agents: state.agent.agents,
@@ -43,19 +44,25 @@ class AgentPage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
     createAgent = (data) => {
         this.loadingOn();
-        this.props.createAgentAction(data).then(this.getAgents).catch(this.loadingOff);
+        this.props.createAgentAction(data).then(this.getAgents).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateAgent = (data) => {
         this.loadingOn();
-        this.props.updateAgentAction(data, data.id).then(this.getAgents).catch(this.loadingOff);
+        this.props.updateAgentAction(data, data.id).then(this.getAgents).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteAgent = (id) => {
         this.loadingOn();
-        this.props.deleteAgentAction(id).then(this.getAgents).catch(this.loadingOff);
+        this.props.deleteAgentAction(id).then(this.getAgents).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +104,4 @@ class AgentPage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (AgentPage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (AgentPage));

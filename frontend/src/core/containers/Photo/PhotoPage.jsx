@@ -9,6 +9,7 @@ import getPhotosAction from "../../../actions/photo/getPhotosAction";
 import createPhotoAction from "../../../actions/photo/createPhotoAction";
 import updatePhotoAction from "../../../actions/photo/updatePhotoAction";
 import deletePhotoAction from "../../../actions/photo/deletePhotoAction";
+import {withSnackbar} from "notistack";
 
 const mapStateToProps = state => ({
     photos: state.photo.photos,
@@ -43,19 +44,25 @@ class PhotoPage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
     createRow = (data) => {
         this.loadingOn();
-        this.props.createPhotoAction(data).then(this.getData).catch(this.loadingOff);
+        this.props.createPhotoAction(data).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateRow = (data) => {
         this.loadingOn();
-        this.props.updatePhotoAction(data, data.id).then(this.getData).catch(this.loadingOff);
+        this.props.updatePhotoAction(data, data.id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteRow = (id) => {
         this.loadingOn();
-        this.props.deletePhotoAction(id).then(this.getData).catch(this.loadingOff);
+        this.props.deletePhotoAction(id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +104,4 @@ class PhotoPage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (PhotoPage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (PhotoPage));

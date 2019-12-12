@@ -9,6 +9,7 @@ import getOwnerAction from "../../../actions/owner/getOwnerAction";
 import createOwnerAction from "../../../actions/owner/createOwnerAction";
 import updateOwnerAction from "../../../actions/owner/updateOwnerAction";
 import deleteOwnerAction from "../../../actions/owner/deleteOwnerAction";
+import {withSnackbar} from "notistack";
 
 const mapStateToProps = state => ({
     owners: state.owner.owners,
@@ -43,19 +44,25 @@ class OwnerPage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
     createRow = (data) => {
         this.loadingOn();
-        this.props.createOwnerAction(data).then(this.getData).catch(this.loadingOff);
+        this.props.createOwnerAction(data).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateRow = (data) => {
         this.loadingOn();
-        this.props.updateOwnerAction(data, data.id).then(this.getData).catch(this.loadingOff);
+        this.props.updateOwnerAction(data, data.id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteRow = (id) => {
         this.loadingOn();
-        this.props.deleteOwnerAction(id).then(this.getData).catch(this.loadingOff);
+        this.props.deleteOwnerAction(id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +104,4 @@ class OwnerPage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (OwnerPage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (OwnerPage));

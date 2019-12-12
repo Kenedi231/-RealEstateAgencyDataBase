@@ -112,7 +112,7 @@ const getUsersById = (id) => {
         pool.query(`SELECT 
             ${userData}.id, ${userData}.username, ${userData}.access, ${agent}.reward, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
             FROM ${userData}, ${agent}, ${data} 
-            WHERE ${userData}.agentid = ${agent}.id AND ${agent}.dataid = ${data}.id AND ${userData}.id = ${id}`,
+            WHERE ${userData}.agentid = ${agent}.id AND ${agent}.dataid = ${data}.id AND ${userData}.id = $1`, [id],
         (err, results) => {
             if (err) return reject(err);
 
@@ -126,7 +126,7 @@ const getOwnerEmployerById = (dbName, id) => {
         pool.query(`SELECT 
             ${dbName}.id, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
             FROM ${dbName}, ${data} 
-            WHERE ${dbName}.dataid = ${data}.id AND ${dbName}.id = ${id}`,
+            WHERE ${dbName}.dataid = ${data}.id AND ${dbName}.id = $1`, [id],
         (err, results) => {
             if (err) return reject(err);
 
@@ -140,7 +140,7 @@ const getAgentById = (id) => {
         pool.query(`SELECT 
             ${agent}.id, ${agent}.reward, ${data}.fullname, ${data}.address, ${data}.passport, ${data}.phone 
             FROM ${agent}, ${data} 
-            WHERE ${agent}.dataid = ${data}.id AND ${agent}.id = ${id}`,
+            WHERE ${agent}.dataid = ${data}.id AND ${agent}.id = $1`, [id],
         (err, results) => {
             if (err) return reject(err);
 
@@ -151,7 +151,7 @@ const getAgentById = (id) => {
 
 const getUserByData = (username, password) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT * FROM ${userData} WHERE ${userData}.username = '${username}' AND ${userData}.password = '${password}'`,
+        pool.query(`SELECT * FROM ${userData} WHERE ${userData}.username = $1::text AND ${userData}.password = $2::text`, [username, password],
             (err, results) => {
                 if (err) return reject(err);
 

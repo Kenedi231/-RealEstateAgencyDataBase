@@ -9,6 +9,7 @@ import getEmployerAction from "../../../actions/employer/getEmployerAction";
 import createEmployerAction from "../../../actions/employer/createEmployerAction";
 import deleteEmployerAction from "../../../actions/employer/deleteEmployerAction";
 import updateEmployerAction from "../../../actions/employer/updateEmployerAction";
+import {withSnackbar} from "notistack";
 
 const mapStateToProps = state => ({
     employers: state.employer.employers,
@@ -43,19 +44,25 @@ class EmployerPage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
     createRow = (data) => {
         this.loadingOn();
-        this.props.createEmployerAction(data).then(this.getData).catch(this.loadingOff);
+        this.props.createEmployerAction(data).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateRow = (data) => {
         this.loadingOn();
-        this.props.updateEmployerAction(data, data.id).then(this.getData).catch(this.loadingOff);
+        this.props.updateEmployerAction(data, data.id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteRow = (id) => {
         this.loadingOn();
-        this.props.deleteEmployerAction(id).then(this.getData).catch(this.loadingOff);
+        this.props.deleteEmployerAction(id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +104,4 @@ class EmployerPage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (EmployerPage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (EmployerPage));

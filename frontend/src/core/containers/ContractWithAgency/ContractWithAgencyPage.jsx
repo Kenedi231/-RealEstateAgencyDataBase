@@ -9,6 +9,7 @@ import getContractsAgencyAction from "../../../actions/contractWithAgency/getCon
 import createContractWithAgencyAction from "../../../actions/contractWithAgency/createContractWithAgencyAction";
 import updateContractWithAgencyAction from "../../../actions/contractWithAgency/updateContractWithAgencyAction";
 import deleteContractWithAgencyAction from "../../../actions/contractWithAgency/deleteContractWithAgencyAction";
+import {withSnackbar} from "notistack";
 
 const mapStateToProps = state => ({
     contractWithAgency: state.contractWithAgency.contractWithAgency,
@@ -43,19 +44,25 @@ class ContractWithAgencyPage extends React.Component {
         });
     };
 
+    showMessage = () => {
+        this.props.enqueueSnackbar('Data successfully updated!', {
+            variant: 'success',
+        });
+    };
+
     createContract = (data) => {
         this.loadingOn();
-        this.props.createContractWithAgencyAction(data).then(this.getData).catch(this.loadingOff);
+        this.props.createContractWithAgencyAction(data).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     updateContract = (data) => {
         this.loadingOn();
-        this.props.updateContractWithAgencyAction(data, data.id).then(this.getData).catch(this.loadingOff);
+        this.props.updateContractWithAgencyAction(data, data.id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     deleteContract = (id) => {
         this.loadingOn();
-        this.props.deleteContractWithAgencyAction(id).then(this.getData).catch(this.loadingOff);
+        this.props.deleteContractWithAgencyAction(id).then(this.getData).then(this.showMessage).catch(this.loadingOff);
     };
 
     loadingOn = () => {
@@ -97,4 +104,4 @@ class ContractWithAgencyPage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (ContractWithAgencyPage);
+export default withSnackbar(connect(mapStateToProps, mapDispatchToProps) (ContractWithAgencyPage));
