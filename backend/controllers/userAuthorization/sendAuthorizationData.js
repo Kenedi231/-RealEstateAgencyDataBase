@@ -1,12 +1,11 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
-const getStringValues = require('../../utils/getStringValues');
 const config = require('../../../config');
 const jwt = require('jsonwebtoken');
 
+const sessionModel = require('../../models/sessionModel');
+
 const sendAuthorizationData = async (req, res, next) => {
     const {userName, password} = req.body;
-    const user = await databaseModel.getUserByData(userName, password);
+    const user = await sessionModel.getUser(userName, password);
     if (!user.length) {
         return next({
             status: 'forbidden',
@@ -15,9 +14,7 @@ const sendAuthorizationData = async (req, res, next) => {
         });
     }
     const token = await jwt.sign({id: user[0].id}, config.secret);
-    const dataNameUserData = '(token, user_id)';
-    const valuesUserData = getStringValues(dataNameUserData);
-    const session = await databaseModel.createNewDataInTable(databaseName.session, dataNameUserData, valuesUserData, [token, user[0].id]);
+    const session = await sessionModel.create([token, user[0].id]);
     if (!session) {
         return next();
     }

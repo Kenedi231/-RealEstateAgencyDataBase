@@ -1,8 +1,7 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const sessionModel = require('../../models/sessionModel');
 
 const logoutUser = async (req, res, next) => {
-    const status = await databaseModel.deleteDataFromTableByData(databaseName.session, 'token', req.token);
+    const status = await sessionModel.deleteByData('token', req.token);
     if (!status) { next() }
 
     res.status(200).json({

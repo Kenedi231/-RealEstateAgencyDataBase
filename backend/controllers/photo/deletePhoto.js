@@ -1,9 +1,8 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const photoModel = require('../../models/photoModel');
 
 const deletePhoto = async (req, res, next) => {
     const id = parseInt(req.params.id);
-    const status = await databaseModel.deleteDataFromTableById(databaseName.photo, id);
+    const status = await photoModel.delete(id);
 
     res.status(200).json(status);
 };

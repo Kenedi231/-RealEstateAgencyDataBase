@@ -1,8 +1,7 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const rateModel = require('../../models/rateModel');
 
 const getRates = async (req, res, next) => {
-    const rates = await databaseModel.getTableByName(databaseName.rate);
+    const rates = await rateModel.get();
 
     res.status(200).json(rates)
 };

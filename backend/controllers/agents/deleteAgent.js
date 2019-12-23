@@ -1,11 +1,11 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const dataModel = require('../../models/dataModel');
+const agentModel = require('../../models/agentModel');
 
 const deleteAgent = async (req, res, next) => {
     const id = parseInt(req.params.id);
-    const table = await databaseModel.getDataFromTableById(databaseName.agent, id);
-    await databaseModel.deleteDataFromTableById(databaseName.agent, id);
-    const status = await databaseModel.deleteDataFromTableById(databaseName.data, table.dataid);
+    const table = await agentModel.getById(id);
+    await agentModel.delete(id);
+    const status = await dataModel.delete(table.dataid);
 
     res.status(200).json(status);
 };

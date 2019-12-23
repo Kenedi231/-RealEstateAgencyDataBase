@@ -1,7 +1,7 @@
-const databaseModel = require('../../models/db');
+const agentModel = require('../../models/agentModel');
 
 const getAgents = async (req, res, next) => {
-    const dataById = await databaseModel.getAgents();
+    const dataById = await agentModel.getAgents();
 
     res.status(200).json(dataById)
 };

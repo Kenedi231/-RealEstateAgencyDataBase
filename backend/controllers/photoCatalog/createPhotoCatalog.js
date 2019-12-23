@@ -1,6 +1,4 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
-const getStringValues = require('../../utils/getStringValues');
+const photoCatalogModel = require('../../models/photoCatalogModel');
 
 const createPhotoCatalog = async (req, res, next) => {
     const {
@@ -13,9 +11,7 @@ const createPhotoCatalog = async (req, res, next) => {
         add_info,
         year_overhaul,
     } = req.body;
-    const dataName = '(photos, schema, number, year_of_construction, furniture, appliances, add_info, year_overhaul)';
-    const values = getStringValues(dataName);
-    const newPhotoCatalog = await databaseModel.createNewDataInTable(databaseName.photoCatalog, dataName, values, [
+    const newPhotoCatalog = await photoCatalogModel.create([
         photos,
         schema,
         number,

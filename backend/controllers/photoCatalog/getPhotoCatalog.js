@@ -1,8 +1,7 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const photoCatalogModel = require('../../models/photoCatalogModel');
 
 const getPhotoCatalog = async (req, res, next) => {
-    const photoCatalog = await databaseModel.getTableByName(databaseName.photoCatalog);
+    const photoCatalog = await photoCatalogModel.get();
 
     res.status(200).json(photoCatalog)
 };

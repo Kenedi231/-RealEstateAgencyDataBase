@@ -1,8 +1,7 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const userModel = require('../../models/userModel');
 
 const getUsers = async (req, res, next) => {
-    const userList = await databaseModel.getTableByName(databaseName.userData);
+    const userList = await userModel.get();
     res.status(200).json(userList)
 };
 
