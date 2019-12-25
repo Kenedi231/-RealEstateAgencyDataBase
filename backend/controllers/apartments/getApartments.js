@@ -1,8 +1,7 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const apartmentModel = require('../../models/apartmentModel');
 
 const getApartments = async (req, res, next) => {
-    const dataById = await databaseModel.getTableByName(databaseName.apartment);
+    const dataById = await apartmentModel.get();
 
     res.status(200).json(dataById)
 };

@@ -1,9 +1,9 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const ownerModel = require('../../models/ownerModel');
+const employerModel = require('../../models/employerModel');
 
 const getOwnerEmployer = async (req, res, next) => {
-    const tableName = req.baseUrl === '/owner' ? databaseName.owner : databaseName.employer;
-    const dataById = await databaseModel.getOwnerEmployer(tableName);
+    const isOwner = req.baseUrl === '/owner';
+    const dataById = isOwner ? await ownerModel.getInnerData() : await employerModel.getInnerData();
 
     res.status(200).json(dataById)
 };

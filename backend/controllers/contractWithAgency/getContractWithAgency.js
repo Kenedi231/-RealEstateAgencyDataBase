@@ -1,8 +1,7 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
+const contractWithAgencyModel = require('../../models/contractWithAgencyModel');
 
 const getContractWithAgency = async (req, res, next) => {
-    const contractWithAgency = await databaseModel.getTableByName(databaseName.contractWithAgency);
+    const contractWithAgency = await contractWithAgencyModel.get();
 
     res.status(200).json(contractWithAgency)
 };

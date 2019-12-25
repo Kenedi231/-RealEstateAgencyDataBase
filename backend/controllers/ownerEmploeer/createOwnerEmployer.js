@@ -1,18 +1,19 @@
-const databaseModel = require('../../models/db');
-const databaseName = require('../../constants/databaseName');
-const getStringValues = require('../../utils/getStringValues');
+const dataModel = require('../../models/dataModel');
+const ownerModel = require('../../models/ownerModel');
+const employerModel = require('../../models/employerModel');
 
 const createOwnerEmployer = async (req, res, next) => {
-    const tableName = req.baseUrl === '/owner' ? databaseName.owner : databaseName.employer;
+    const isOwner = req.baseUrl === '/owner';
     const {fullname, address, passport, phone} = req.body;
-    const dataNameUserData = '(fullname, address, passport, phone)';
-    const valuesUserData = getStringValues(dataNameUserData);
-    const newUserData = await databaseModel.createNewDataInTable(databaseName.data, dataNameUserData, valuesUserData, [fullname, address, passport, phone]);
+    const newUserData = await dataModel.create([fullname, address, passport, phone]);
     if (!newUserData) { return next(); }
 
-    const dataNameActiveUser = '(dataid)';
-    const valuesActiveUser = getStringValues(dataNameActiveUser);
-    const newOwnerEmployer = await databaseModel.createNewDataInTable(tableName, dataNameActiveUser, valuesActiveUser, [newUserData.rows[0].id]);
+    let newOwnerEmployer;
+    if (isOwner) {
+        newOwnerEmployer = await ownerModel.create([newUserData.rows[0].id]);
+    } else {
+        newOwnerEmployer = await employerModel.create([newUserData.rows[0].id]);
+    }
     if (!newOwnerEmployer) { return next(); }
 
     res.status(200).json(newOwnerEmployer.rows[0]);
